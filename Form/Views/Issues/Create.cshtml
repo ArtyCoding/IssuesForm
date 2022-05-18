@@ -1,0 +1,71 @@
+﻿@model Form.Models.Issue
+
+@{
+    ViewData["Title"] = "Задать вопрос";
+}
+<h1>Задать вопрос</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Enterprice" class="control-label">Предприятие</label>
+                <input asp-for="Enterprice" class="form-control" />
+                <span asp-validation-for="Enterprice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">Адрес электронной почты</label>
+                <input asp-for="Email" class="form-control" placeholder="email@email.com"/>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="fio" style="display:none">
+                <label asp-for="FullName" class="control-label">Фамилия Имя Отчество</label>
+                <input asp-for="FullName" class="form-control" placeholder="Иванов Иван Иванович"/>
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="age" style="display:none">
+                <label asp-for="Age" class="control-label">Возраст</label>
+                @*<input asp-for="Age" class="form-control" />*@
+                <select asp-for="Age" class="form-control">
+                    <option value="18-25">18-25</option>
+                    <option value="26-35">26-35</option>
+                    <option value="36-45">36-45</option>
+                    <option value="46-55">46-55</option>
+                    <option value="55+">55 и старше</option>
+                </select>
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Text" class="control-label">Текст вопроса</label>
+                <textarea asp-for="Text" class="form-control" placeholder="Текст"></textarea>
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top:5px">
+                <input type="submit" value="Отправить" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    const email = document.getElementById('Email')
+    const age = document.getElementById('age')
+    const fio = document.getElementById('fio')
+    email.addEventListener('input', validate)
+    function validate() {
+        if(email.value.length !== 0){
+            fio.style.display = "block"
+            age.style.display = "block"
+        }
+        else{
+            fio.style.display = "none"
+            age.style.display = "none"
+        }
+                
+    }       
+                    
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
